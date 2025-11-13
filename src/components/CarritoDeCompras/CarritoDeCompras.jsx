@@ -21,6 +21,7 @@ const CarritoDeCompras = () => {
     calcularEnvio,
     calcularImpuestos,
     calcularIVA,
+    vaciarCarrito,
   } = useCarrito();
 
   // Función para calcular fecha inicial (entrega regular = 15 días)
@@ -74,8 +75,22 @@ const CarritoDeCompras = () => {
       return;
     }
 
-    alert(`Procesando compra con ${metodoPagoSeleccionado.nombre}...`);
-    // Aquí irá la lógica de compra
+    // Mostrar confirmación
+    const confirmacion = `✅ ¡Compra realizada con éxito!\n\nTotal: ${formatearPrecio(total)}\nMétodo de pago: ${metodoPagoSeleccionado.nombre}\nDirección: ${destino.calle}, ${destino.ciudad}\nFecha estimada de entrega: ${fechaEntrega}\n\n¡Gracias por tu compra!`;
+    
+    alert(confirmacion);
+    
+    // Vaciar el carrito y cerrar
+    vaciarCarrito();
+    cerrarCarrito();
+    
+    // Resetear estados
+    setMetodoPagoSeleccionado(null);
+    setDestino({
+      ciudad: 'Medellín - Colombia',
+      calle: '',
+      codigoPostal: '',
+    });
   };
 
   return (

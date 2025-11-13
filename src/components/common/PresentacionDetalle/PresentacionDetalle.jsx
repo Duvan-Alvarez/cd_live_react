@@ -60,7 +60,6 @@ export function PresentacionDetalle({ producto, tipo = 'instrumento' }) {
   // Renderizado para álbumes
   if (tipo === 'album') {
     const imagenUrl = obtenerAsset(producto.imagen) || producto.imagen
-    console.log('Album imagen:', producto.imagen, '-> URL:', imagenUrl)
     
     return (
       <div className="contenedorPresentacion album">
@@ -91,7 +90,6 @@ export function PresentacionDetalle({ producto, tipo = 'instrumento' }) {
 
   // Renderizado para instrumentos (layout de 2 tarjetas)
   const imagenUrlInstrumento = obtenerAsset(producto.imagen) || producto.imagen
-  console.log('Instrumento imagen:', producto.imagen, '-> URL:', imagenUrlInstrumento)
   
   return (
     <div className="contenedorPresentacion instrumento">

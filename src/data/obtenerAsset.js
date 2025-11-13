@@ -16,24 +16,15 @@ function normalizarRuta(ruta) {
 export function obtenerAsset(ruta, { optional = false } = {}) {
   const rutaNormalizada = normalizarRuta(ruta)
   if (!rutaNormalizada) {
-    if (!optional && ruta) {
-      console.warn(`[assets] Ruta inválida: ${String(ruta)}`)
-    }
     return ''
   }
 
   const clave = `../assets/${rutaNormalizada}`
   const recurso = recursosEstaticos[clave]
 
-  if (!recurso) {
-    if (!optional) {
-      console.warn(`[assets] No se encontró el recurso: ${ruta}`)
-      console.warn(`[assets] Ruta normalizada: ${rutaNormalizada}`)
-      console.warn(`[assets] Clave buscada: ${clave}`)
-      console.warn(`[assets] Recursos disponibles:`, Object.keys(recursosEstaticos))
-    }
+  if (!recurso && !optional) {
     return ''
   }
 
-  return recurso
+  return recurso || ''
 }
