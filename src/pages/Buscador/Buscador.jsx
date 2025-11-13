@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import albumsData from '@api/albums.json'
 import instrumentosData from '@api/instrumentos.json'
 import { obtenerAsset } from '@data/obtenerAsset'
 import { BottonComprar } from '@components/common/BottonComprar/BottonComprar'
 import { ProductCard } from '@components/common/ProductCard/ProductCard'
+import { useCarrito } from '../../context/useCarrito'
 
 import './Buscador.css'
 
@@ -60,7 +61,7 @@ function crearEntradaInstrumento(instrumento) {
 
 export function Buscador() {
   const location = useLocation()
-  const navigate = useNavigate()
+  const { agregarAlCarrito, abrirCarrito } = useCarrito()
   const parametros = useMemo(() => new URLSearchParams(location.search), [location.search])
   const termino = parametros.get('termino')?.trim() ?? ''
 
@@ -109,6 +110,20 @@ export function Buscador() {
   const elementos = termino ? resultados : sugerencias
   const hayResultados = elementos.length > 0
 
+  const manejarComprar = (item) => {
+    const productoCarrito = {
+      id: item.id,
+      titulo: item.titulo,
+      artista: item.descripcion || '',
+      precio: precioFormato.format(item.precio),
+      imagen: item.imagen,
+      categoria: item.tipo
+    }
+
+    agregarAlCarrito(productoCarrito)
+    abrirCarrito()
+  }
+
   return (
     <section className="paginaBusqueda">
       <header className="encabezadoBusqueda">
@@ -135,7 +150,7 @@ export function Buscador() {
               <h3>{item.titulo}</h3>
               {item.descripcion && <p className="descripcionResultado">{item.descripcion}</p>}
                   <span className="precioResultado">{precioFormato.format(item.precio)}</span>
-              <BottonComprar className="botonBusqueda" onClick={() => navigate(item.enlace)}>
+              <BottonComprar className="botonBusqueda" onClick={() => manejarComprar(item)}>
                 Comprar
               </BottonComprar>
             </ProductCard>

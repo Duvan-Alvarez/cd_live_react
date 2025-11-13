@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { BottonComprar } from '@components/common/BottonComprar/BottonComprar'
+import { useCarrito } from '../../context/useCarrito'
 import './Marcos.css'
 
 import albumsData from '@api/albums.json'
@@ -8,6 +9,8 @@ import { obtenerAsset } from '@data/obtenerAsset'
 
 
 export function Marcos() {
+  const { agregarAlCarrito, abrirCarrito } = useCarrito()
+  
   const albums = useMemo(
     () =>
       albumsData.map((album) => {
@@ -182,6 +185,25 @@ export function Marcos() {
     ? `${albumSeleccionado.artista} - ${albumSeleccionado.album}`
     : 'Selecciona un álbum'
 
+  const manejarComprarMarco = () => {
+    if (!albumSeleccionado) {
+      alert('Por favor selecciona un álbum primero')
+      return
+    }
+
+    const productoMarco = {
+      id: `marco-${albumSeleccionado.album}-${colorMarco}-${tamano}`,
+      titulo: `Marco ${tamano} - ${albumSeleccionado.album}`,
+      artista: `${albumSeleccionado.artista} - Color: ${colorSeleccionado?.nombre || colorMarco}`,
+      precio: '$249.900',
+      imagen: albumSeleccionado.imagen,
+      categoria: 'Marco Personalizado'
+    }
+
+    agregarAlCarrito(productoMarco)
+    abrirCarrito()
+  }
+
   return (
     <div className="marcos-section">
       <h2 className="titulo">Visualiza tu vinilo en distintos marcos</h2>
@@ -209,7 +231,7 @@ export function Marcos() {
         </p>
         <div className="producto-compra">
           <span className="producto-precio">$249.900</span>
-          <BottonComprar />
+          <BottonComprar onClick={manejarComprarMarco} />
         </div>
       </div>
       {/* ✅ FIN NUEVO BLOQUE */}
@@ -303,6 +325,4 @@ export function Marcos() {
       </div>
     </div>
   )
-}
-
-export default Marcos 
+} 

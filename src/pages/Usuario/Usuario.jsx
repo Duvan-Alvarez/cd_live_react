@@ -28,7 +28,6 @@ export function Usuario() {
   })
 
   const [mostrarModalDatos, setMostrarModalDatos] = useState(false)
-  const [mostrarModalContrasena, setMostrarModalContrasena] = useState(false)
   const [mostrarModalDireccion, setMostrarModalDireccion] = useState(false)
   const [mostrarModalTarjeta, setMostrarModalTarjeta] = useState(false)
 
@@ -72,6 +71,22 @@ export function Usuario() {
     const datosActuales = JSON.parse(localStorage.getItem('datosUsuario') || '{}')
     localStorage.setItem('datosUsuario', JSON.stringify({ ...datosActuales, tarjetaEnUso: tarjetaTemp }))
     setMostrarModalTarjeta(false)
+  }
+
+  const borrarDireccion = () => {
+    if (confirm('¿Estás seguro de eliminar la dirección?')) {
+      setUsuario(prev => ({ ...prev, direccionActual: '' }))
+      const datosActuales = JSON.parse(localStorage.getItem('datosUsuario') || '{}')
+      localStorage.setItem('datosUsuario', JSON.stringify({ ...datosActuales, direccionActual: '' }))
+    }
+  }
+
+  const borrarTarjeta = () => {
+    if (confirm('¿Estás seguro de eliminar la tarjeta?')) {
+      setUsuario(prev => ({ ...prev, tarjetaEnUso: '' }))
+      const datosActuales = JSON.parse(localStorage.getItem('datosUsuario') || '{}')
+      localStorage.setItem('datosUsuario', JSON.stringify({ ...datosActuales, tarjetaEnUso: '' }))
+    }
   }
 
   const cerrarSesion = () => {
@@ -177,9 +192,6 @@ export function Usuario() {
               <button className="botonSecundario" onClick={abrirModalDatos}>
                 Cambiar Datos
               </button>
-              <button className="botonSecundario" onClick={() => setMostrarModalContrasena(true)}>
-                Cambiar Contraseña
-              </button>
               <button className="botonCerrarSesion" onClick={cerrarSesion}>
                 Cerrar Sesión
               </button>
@@ -194,7 +206,7 @@ export function Usuario() {
                 <button className="botonSecundario" onClick={abrirModalDireccion}>
                   Agregar Direccion
                 </button>
-                <button className="botonBorrar">Borrar</button>
+                <button className="botonBorrar" onClick={borrarDireccion}>Borrar</button>
               </div>
             </div>
 
@@ -207,7 +219,7 @@ export function Usuario() {
                 <button className="botonSecundario" onClick={abrirModalTarjeta}>
                   Agregar tarjeta
                 </button>
-                <button className="botonBorrar">Borrar</button>
+                <button className="botonBorrar" onClick={borrarTarjeta}>Borrar</button>
               </div>
             </div>
           </div>
@@ -306,31 +318,6 @@ export function Usuario() {
             <div className="botonesModal">
               <button className="botonGuardar" onClick={guardarDatos}>Guardar</button>
               <button className="botonCancelar" onClick={() => setMostrarModalDatos(false)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal Cambiar Contraseña */}
-      {mostrarModalContrasena && (
-        <div className="modalOverlay" onClick={() => setMostrarModalContrasena(false)}>
-          <div className="modalContenido" onClick={(e) => e.stopPropagation()}>
-            <h3>Cambiar Contraseña</h3>
-            <div className="formGroup">
-              <label>Contraseña Actual</label>
-              <input type="password" />
-            </div>
-            <div className="formGroup">
-              <label>Nueva Contraseña</label>
-              <input type="password" />
-            </div>
-            <div className="formGroup">
-              <label>Confirmar Contraseña</label>
-              <input type="password" />
-            </div>
-            <div className="botonesModal">
-              <button className="botonGuardar">Guardar</button>
-              <button className="botonCancelar" onClick={() => setMostrarModalContrasena(false)}>Cancelar</button>
             </div>
           </div>
         </div>

@@ -26,18 +26,25 @@ export function AlbumsFilters({
             onClick={onToggleEdicionMenu}
           >
             Edición
+            <span className={`flecha-desplegable${menuEdicionVisible ? ' rotada' : ''}`}>▼</span>
           </FilterButton>
           <ul className={`menu-desplegable${menuEdicionVisible ? ' mostrar' : ''}`}>
-            <li>
-              <button type="button" onClick={() => onSeleccionarEdicion('Estandar')} data-edicion="Estandar">
-                Estándar
-              </button>
-            </li>
-            <li>
-              <button type="button" onClick={() => onSeleccionarEdicion('Limitada')} data-edicion="Limitada">
-                Limitada
-              </button>
-            </li>
+            <button 
+              type="button" 
+              onClick={() => onSeleccionarEdicion('Estandar')} 
+              data-edicion="Estandar"
+              className={edicionSeleccionada === 'Estandar' ? 'seleccionado' : ''}
+            >
+              Estándar
+            </button>
+            <button 
+              type="button" 
+              onClick={() => onSeleccionarEdicion('Limitada')} 
+              data-edicion="Limitada"
+              className={edicionSeleccionada === 'Limitada' ? 'seleccionado' : ''}
+            >
+              Limitada
+            </button>
           </ul>
         </div>
 
@@ -48,18 +55,25 @@ export function AlbumsFilters({
             onClick={onTogglePrecioMenu}
           >
             Precio
+            <span className={`flecha-desplegable${menuPrecioVisible ? ' rotada' : ''}`}>▼</span>
           </FilterButton>
           <ul className={`menu-desplegable-precio${menuPrecioVisible ? ' mostrar' : ''}`}>
-            <li>
-              <button type="button" onClick={() => onSeleccionarPrecio('asc')} data-precio="asc">
-                Menor a Mayor
-              </button>
-            </li>
-            <li>
-              <button type="button" onClick={() => onSeleccionarPrecio('desc')} data-precio="desc">
-                Mayor a Menor
-              </button>
-            </li>
+            <button 
+              type="button" 
+              onClick={() => onSeleccionarPrecio('asc')} 
+              data-precio="asc"
+              className={ordenPrecio === 'asc' ? 'seleccionado' : ''}
+            >
+              Menor a Mayor
+            </button>
+            <button 
+              type="button" 
+              onClick={() => onSeleccionarPrecio('desc')} 
+              data-precio="desc"
+              className={ordenPrecio === 'desc' ? 'seleccionado' : ''}
+            >
+              Mayor a Menor
+            </button>
           </ul>
         </div>
 
